@@ -13,18 +13,8 @@ pub extern "C" fn _start() -> ! {
 
     xos::init();
 
-    fn stack_overflow() {
-        stack_overflow(); // for each recursion, the return address is pushed
-    }
-
-    // trigger a stack overflow
-    stack_overflow();
-    // as before
-    #[cfg(test)]
-    test_main();
-
     println!("It did not crash!");
-    loop {}
+    xos::hlt_loop();
 }
 
 /// This function is called on panic.
@@ -32,7 +22,7 @@ pub extern "C" fn _start() -> ! {
 #[panic_handler]
 fn panic(info: &PanicInfo) -> ! {
     println!("{}", info);
-    loop {}
+    xos::hlt_loop();
 }
 
 #[cfg(test)]
